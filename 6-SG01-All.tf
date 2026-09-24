@@ -52,7 +52,7 @@ resource "aws_security_group" "app1-sg02-LB01" {
   name        = "app1-sg02-LB01"
   description = "app1-sg02-LB01"
   vpc_id      = aws_vpc.app1.id
-ingress {
+  ingress {
     description = "HTTP"
     from_port   = 80
     to_port     = 80
