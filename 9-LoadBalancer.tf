@@ -3,10 +3,7 @@ resource "aws_lb" "app1_alb" {
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.app1-sg02-LB01.id]
-  subnets = [
-    aws_subnet.public-us-west-1a.id,
-    aws_subnet.public-us-west-1c.id
-  ]
+  subnets = module.network.public_subnet_ids
   enable_deletion_protection = false
   #Lots of death and suffering here, make sure it's false
 

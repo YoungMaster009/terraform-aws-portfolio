@@ -1,7 +1,7 @@
 resource "aws_security_group" "app1-sg01-servers" {
   name        = "app1-sg01-servers"
   description = "app1-sg01-servers"
-  vpc_id      = aws_vpc.app1.id
+  vpc_id      = module.network.vpc_id
 
   ingress {
     description = "MyHomePage"
@@ -51,7 +51,7 @@ resource "aws_security_group" "app1-sg01-servers" {
 resource "aws_security_group" "app1-sg02-LB01" {
   name        = "app1-sg02-LB01"
   description = "app1-sg02-LB01"
-  vpc_id      = aws_vpc.app1.id
+  vpc_id      = module.network.vpc_id
   ingress {
     description = "HTTP"
     from_port   = 80
