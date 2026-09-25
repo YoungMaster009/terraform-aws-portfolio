@@ -1,9 +1,9 @@
 resource "aws_autoscaling_group" "app1_asg" {
-  name_prefix      = "app1-auto-scaling-group-"
-  min_size         = 3
-  max_size         = 15
-  desired_capacity = 6
-  vpc_zone_identifier = module.network.private_subnet_ids
+  name_prefix               = "app1-auto-scaling-group-"
+  min_size                  = 3
+  max_size                  = 15
+  desired_capacity          = 6
+  vpc_zone_identifier       = module.network.private_subnet_ids
   health_check_type         = "ELB"
   health_check_grace_period = 300
   force_delete              = true

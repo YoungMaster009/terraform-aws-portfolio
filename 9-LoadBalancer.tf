@@ -1,9 +1,9 @@
 resource "aws_lb" "app1_alb" {
-  name               = "app1-load-balancer"
-  internal           = false
-  load_balancer_type = "application"
-  security_groups    = [aws_security_group.app1-sg02-LB01.id]
-  subnets = module.network.public_subnet_ids
+  name                       = "app1-load-balancer"
+  internal                   = false
+  load_balancer_type         = "application"
+  security_groups            = [aws_security_group.app1-sg02-LB01.id]
+  subnets                    = module.network.public_subnet_ids
   enable_deletion_protection = false
   #Lots of death and suffering here, make sure it's false
 
