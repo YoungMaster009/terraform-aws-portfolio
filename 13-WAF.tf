@@ -70,14 +70,14 @@ resource "aws_wafv2_ip_set" "ip_block_list" {
   scope              = "REGIONAL"
   ip_address_version = "IPV4"
 
-addresses = [
+  addresses = [
     "1.188.0.0/16",
     "1.80.0.0/16",
     "101.144.0.0/16",
     "101.16.0.0/16"
-]
+  ]
 
- tags = {
+  tags = {
     Name    = "ip-block-list"
     Service = "application1"
     Owner   = "Chewbacca"

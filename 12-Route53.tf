@@ -1,6 +1,6 @@
 
 data "aws_route53_zone" "main" {
-  name         = "doiwannaknowthediaryofjane.com"  # The domain name you want to look up
+  name         = "doiwannaknowthediaryofjane.com" # The domain name you want to look up
   private_zone = false
 }
 
