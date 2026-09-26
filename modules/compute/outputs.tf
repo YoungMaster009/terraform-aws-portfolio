@@ -15,5 +15,8 @@ output "asg_name" {
 }
 
 output "server_security_group_id" {
-  value = aws_security_group.servers.id
+  value = aws_security_group.servers.id 
+}
+output "alb_arn" {
+  value = aws_lb.this.arn
 }

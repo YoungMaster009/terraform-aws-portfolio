@@ -87,7 +87,7 @@ resource "aws_wafv2_ip_set" "ip_block_list" {
 
 
 resource "aws_wafv2_web_acl_association" "app1_waf_alb_association" {
-  resource_arn = aws_lb.app1_alb.arn
+  resource_arn = module.compute.alb_arn
   web_acl_arn  = aws_wafv2_web_acl.app1_waf_acl.arn
 }
 
