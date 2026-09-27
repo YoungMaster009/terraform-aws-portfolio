@@ -40,8 +40,12 @@ module "compute" {
   public_subnet_ids  = module.network.public_subnet_ids
   private_subnet_ids = module.network.private_subnet_ids
 
-  ami_id    = "ami-02a42b4c37ec3c4b4"
-  user_data = base64encode(file("${path.module}/user-data.sh"))
+  ami_id = "ami-02a42b4c37ec3c4b4"
+
+  instance_profile_name = aws_iam_instance_profile.instance.name
+  user_data = base64encode(templatefile("${path.module}/user-data.sh", {
+    assets_bucket = aws_s3_bucket.assets.id
+  }))
 
   tags = {
     Service = "application1"

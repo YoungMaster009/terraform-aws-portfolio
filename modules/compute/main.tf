@@ -60,6 +60,10 @@ resource "aws_launch_template" "this" {
   image_id      = var.ami_id
   instance_type = var.instance_type
 
+  iam_instance_profile {
+    name = var.instance_profile_name
+  }
+
   vpc_security_group_ids = [aws_security_group.servers.id]
   user_data              = var.user_data
 
@@ -133,7 +137,7 @@ resource "aws_autoscaling_group" "this" {
 
   launch_template {
     id      = aws_launch_template.this.id
-    version = "$Latest"
+    version = aws_launch_template.this.latest_version
   }
 
   enabled_metrics = [
@@ -152,6 +156,12 @@ resource "aws_autoscaling_group" "this" {
       propagate_at_launch = true
     }
   }
+  instance_refresh {
+    strategy = "Rolling"
+    preferences {
+      min_healthy_percentage = 50
+    }
+  }
 }
 
 resource "aws_autoscaling_policy" "cpu" {
@@ -167,3 +177,4 @@ resource "aws_autoscaling_policy" "cpu" {
     target_value = 75.0
   }
 }
+

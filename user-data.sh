@@ -4,21 +4,50 @@ yum install -y httpd
 systemctl start httpd
 systemctl enable httpd
 
+aws s3 cp s3://${assets_bucket}/spacevideo.mp4 /var/www/html/spacevideo.mp4
+
 TOKEN=$(curl -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")
-local_ipv4=$(curl -H "X-aws-ec2-metadata-token: $TOKEN" -s http://169.254.169.254/latest/meta-data/local-ipv4)
 az=$(curl -H "X-aws-ec2-metadata-token: $TOKEN" -s http://169.254.169.254/latest/meta-data/placement/availability-zone)
 instance_id=$(curl -H "X-aws-ec2-metadata-token: $TOKEN" -s http://169.254.169.254/latest/meta-data/instance-id)
 
 cat > /var/www/html/index.html <<HTML
 <!DOCTYPE html>
 <html>
-<head><title>DJ's World</title></head>
+<head>
+  <meta charset="utf-8">
+  <title>DJ's World</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { height: 100vh; overflow: hidden; font-family: system-ui, sans-serif; }
+    video { position: fixed; top: 50%; left: 50%; min-width: 100%; min-height: 100%;
+            transform: translate(-50%, -50%); object-fit: cover; z-index: -1; }
+    .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 0; }
+    .content { position: relative; z-index: 1; height: 100vh; display: flex;
+               flex-direction: column; justify-content: center; align-items: center;
+               text-align: center; color: #fff; padding: 2rem; }
+    h1 { font-size: clamp(2rem, 8vw, 5rem); letter-spacing: 0.02em; }
+    h2 { font-size: clamp(1rem, 3vw, 1.75rem); font-weight: 400; opacity: 0.9;
+         margin-top: 0.5rem; }
+    .stack { margin-top: 2rem; font-size: 0.95rem; opacity: 0.85; }
+    .box { margin-top: 2rem; padding: 1rem 1.5rem; border: 1px solid rgba(255,255,255,0.3);
+           border-radius: 6px; font-family: ui-monospace, monospace; font-size: 0.9rem;
+           background: rgba(0,0,0,0.3); }
+  </style>
+</head>
 <body>
-  <h1>DJ's World</h1>
-  <h2>Chains Broken in America</h2>
-  <p><b>Instance ID:</b> $instance_id</p>
-  <p><b>Private IP:</b> $local_ipv4</p>
-  <p><b>Availability Zone:</b> $az</p>
+  <video autoplay muted loop playsinline>
+    <source src="spacevideo.mp4" type="video/mp4">
+  </video>
+  <div class="overlay"></div>
+  <div class="content">
+    <h1>DJ's World</h1>
+    <h2>Chains Broken in America</h2>
+    <p class="stack">Deployed with Terraform on AWS &middot; VPC &middot; ALB &middot; Auto Scaling &middot; Route 53</p>
+    <div class="box">
+      served by $instance_id<br>
+      availability zone $az
+    </div>
+  </div>
 </body>
 </html>
 HTML

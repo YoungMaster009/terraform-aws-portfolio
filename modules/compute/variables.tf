@@ -49,3 +49,9 @@ variable "tags" {
   type    = map(string)
   default = {}
 }
+
+variable "instance_profile_name" {
+  description = "IAM instance profile for the servers"
+  type        = string
+  default     = null
+}
