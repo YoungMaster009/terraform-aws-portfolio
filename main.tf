@@ -33,3 +33,24 @@ module "network" {
     Planet  = "Mustafar"
   }
 }
+module "compute" {
+  source = "./modules/compute"
+
+  vpc_id             = module.network.vpc_id
+  public_subnet_ids  = module.network.public_subnet_ids
+  private_subnet_ids = module.network.private_subnet_ids
+
+  ami_id    = "ami-02a42b4c37ec3c4b4"
+  user_data = base64encode(file("${path.module}/user-data.sh"))
+
+  tags = {
+    Service = "application1"
+    Owner   = "Luke"
+    Planet  = "Mustafar"
+  }
+}
+
+output "lb_dns_name" {
+  value       = module.compute.alb_dns_name
+  description = "The DNS name of the App1 load balancer"
+}
