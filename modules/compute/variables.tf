@@ -55,3 +55,7 @@ variable "instance_profile_name" {
   type        = string
   default     = null
 }
+
+variable "certificate_arn" {
+  type = string
+}

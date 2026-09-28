@@ -46,7 +46,7 @@ module "compute" {
   user_data = base64encode(templatefile("${path.module}/user-data.sh", {
     assets_bucket = aws_s3_bucket.assets.id
   }))
-
+  certificate_arn = aws_acm_certificate_validation.site.certificate_arn
   tags = {
     Service = "application1"
     Owner   = "Luke"
