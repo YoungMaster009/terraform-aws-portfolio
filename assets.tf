@@ -11,10 +11,10 @@ resource "aws_s3_bucket_public_access_block" "assets" {
 }
 
 resource "aws_s3_object" "video" {
-  bucket = aws_s3_bucket.assets.id
-  key    = "spacevideo.mp4"
-  source = "${path.module}/spacevideo.mp4"
-  etag   = filemd5("${path.module}/spacevideo.mp4")
+  bucket      = aws_s3_bucket.assets.id
+  key         = "spacevideo.mp4"
+  source      = "${path.module}/spacevideo.mp4"
+  source_hash = filemd5("${path.module}/spacevideo.mp4")
 }
 
 resource "aws_iam_role" "instance" {

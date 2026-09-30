@@ -187,6 +187,9 @@ resource "aws_autoscaling_group" "this" {
       min_healthy_percentage = 50
     }
   }
+  lifecycle {
+    ignore_changes = [desired_capacity]
+  }
 }
 
 resource "aws_autoscaling_policy" "cpu" {
