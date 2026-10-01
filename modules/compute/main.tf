@@ -1,6 +1,6 @@
 resource "aws_security_group" "servers" {
-  name        = "app1-sg01-servers"
-  description = "app1 web servers"
+  name        = "${var.name_prefix}-app1-sg01-servers"
+  description = "${var.name_prefix}-app1 web servers"
   vpc_id      = var.vpc_id
 
   ingress {
@@ -29,12 +29,12 @@ resource "aws_security_group" "servers" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = merge(var.tags, { Name = "app1-sg01-servers" })
+  tags = merge(var.tags, { Name = "${var.name_prefix}-app1-sg01-servers" })
 }
 
 resource "aws_security_group" "alb" {
-  name        = "app1-sg02-LB01"
-  description = "app1 load balancer"
+  name        = "${var.name_prefix}-app1-sg02-LB01"
+  description = "${var.name_prefix}-app1 load balancer"
   vpc_id      = var.vpc_id
 
   ingress {
@@ -60,11 +60,11 @@ resource "aws_security_group" "alb" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = merge(var.tags, { Name = "app1-sg02-LB01" })
+  tags = merge(var.tags, { Name = "${var.name_prefix}-app1-sg02-LB01" })
 }
 
 resource "aws_launch_template" "this" {
-  name_prefix   = "app1_LT"
+  name_prefix   = "${var.name_prefix}-app1_LT"
   image_id      = var.ami_id
   instance_type = var.instance_type
 
@@ -81,7 +81,7 @@ resource "aws_launch_template" "this" {
 
   tag_specifications {
     resource_type = "instance"
-    tags          = merge(var.tags, { Name = "app1_LT" })
+    tags          = merge(var.tags, { Name = "${var.name_prefix}-app1_LT" })
   }
 
   lifecycle {
@@ -90,7 +90,7 @@ resource "aws_launch_template" "this" {
 }
 
 resource "aws_lb_target_group" "this" {
-  name        = "app1-target-group"
+  name        = "${var.name_prefix}-app1-target-group"
   port        = 80
   protocol    = "HTTP"
   vpc_id      = var.vpc_id
@@ -111,7 +111,7 @@ resource "aws_lb_target_group" "this" {
 }
 
 resource "aws_lb" "this" {
-  name                       = "app1-load-balancer"
+  name                       = "${var.name_prefix}-app1-load-balancer"
   internal                   = false
   load_balancer_type         = "application"
   security_groups            = [aws_security_group.alb.id]
@@ -150,7 +150,7 @@ resource "aws_lb_listener" "https" {
   }
 }
 resource "aws_autoscaling_group" "this" {
-  name_prefix               = "app1-auto-scaling-group-"
+  name_prefix               = "${var.name_prefix}-app1-auto-scaling-group-"
   min_size                  = var.min_size
   max_size                  = var.max_size
   desired_capacity          = var.desired_capacity
@@ -174,7 +174,7 @@ resource "aws_autoscaling_group" "this" {
   ]
 
   dynamic "tag" {
-    for_each = merge(var.tags, { Name = "app1-instance" })
+    for_each = merge(var.tags, { Name = "${var.name_prefix}-app1-instance" })
     content {
       key                 = tag.key
       value               = tag.value
@@ -193,7 +193,7 @@ resource "aws_autoscaling_group" "this" {
 }
 
 resource "aws_autoscaling_policy" "cpu" {
-  name                      = "app1-cpu-target"
+  name                      = "${var.name_prefix}-app1-cpu-target"
   autoscaling_group_name    = aws_autoscaling_group.this.name
   policy_type               = "TargetTrackingScaling"
   estimated_instance_warmup = 120

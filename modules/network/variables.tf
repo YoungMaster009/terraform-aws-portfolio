@@ -22,3 +22,8 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "name_prefix" {
+  description = "Environment prefix for resource names, e.g. dev or prod"
+  type        = string
+}

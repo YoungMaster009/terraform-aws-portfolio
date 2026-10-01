@@ -59,3 +59,8 @@ variable "instance_profile_name" {
 variable "certificate_arn" {
   type = string
 }
+
+variable "name_prefix" {
+  description = "Environment prefix for resource names, e.g. dev or prod"
+  type        = string
+}

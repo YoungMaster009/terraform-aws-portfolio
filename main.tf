@@ -1,5 +1,6 @@
 module "network" {
-  source = "./modules/network"
+  source      = "./modules/network"
+  name_prefix = "dev"
 
   vpc_cidr       = "10.32.0.0/16"
   nat_subnet_key = "public-us-west-1a"
@@ -34,7 +35,8 @@ module "network" {
   }
 }
 module "compute" {
-  source = "./modules/compute"
+  source      = "./modules/compute"
+  name_prefix = "dev"
 
   vpc_id             = module.network.vpc_id
   public_subnet_ids  = module.network.public_subnet_ids

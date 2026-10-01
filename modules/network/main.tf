@@ -1,6 +1,6 @@
 resource "aws_vpc" "this" {
   cidr_block = var.vpc_cidr
-  tags       = merge(var.tags, { Name = "app1" })
+  tags       = merge(var.tags, { Name = "${var.name_prefix}-app1" })
 }
 
 resource "aws_subnet" "this" {
@@ -16,7 +16,7 @@ resource "aws_subnet" "this" {
 
 resource "aws_internet_gateway" "this" {
   vpc_id = aws_vpc.this.id
-  tags   = merge(var.tags, { Name = "app1_IG" })
+  tags   = merge(var.tags, { Name = "${var.name_prefix}-app1_IG" })
 }
 
 resource "aws_eip" "nat" {
