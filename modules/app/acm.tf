@@ -1,5 +1,5 @@
 resource "aws_acm_certificate" "site" {
-  domain_name       = "doiwannaknowthediaryofjane.com"
+  domain_name       = var.site_domain
   validation_method = "DNS"
 
   lifecycle {

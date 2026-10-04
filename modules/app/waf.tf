@@ -6,7 +6,7 @@ variable "enable_waf" {
 
 resource "aws_wafv2_web_acl" "app1_waf_acl" {
   count       = var.enable_waf ? 1 : 0
-  name        = "app1-web-acl"
+  name        = "${var.name_prefix}-app1-web-acl"
   description = "Web ACL for app1"
   scope       = "REGIONAL"
 
@@ -59,12 +59,12 @@ resource "aws_wafv2_web_acl" "app1_waf_acl" {
 
   visibility_config {
     cloudwatch_metrics_enabled = false
-    metric_name                = "app1WebACL"
+    metric_name                = "${var.name_prefix}-app1WebACL"
     sampled_requests_enabled   = false
   }
 
   tags = {
-    Name    = "app1-web-acl"
+    Name    = "${var.name_prefix}-app1-web-acl"
     Service = "application1"
     Owner   = "Chewbacca"
     Planet  = "Mustafar"
@@ -73,7 +73,7 @@ resource "aws_wafv2_web_acl" "app1_waf_acl" {
 
 resource "aws_wafv2_ip_set" "ip_block_list" {
   count              = var.enable_waf ? 1 : 0
-  name               = "ip-block-list"
+  name               = "${var.name_prefix}-ip-block-list"
   description        = "List of blocked IP addresses"
   scope              = "REGIONAL"
   ip_address_version = "IPV4"
@@ -86,7 +86,7 @@ resource "aws_wafv2_ip_set" "ip_block_list" {
   ]
 
   tags = {
-    Name    = "ip-block-list"
+    Name    = "${var.name_prefix}-ip-block-list"
     Service = "application1"
     Owner   = "Chewbacca"
     Planet  = "Mustafar"
@@ -95,7 +95,7 @@ resource "aws_wafv2_ip_set" "ip_block_list" {
 
 resource "aws_wafv2_web_acl_association" "app1_waf_alb_association" {
   count        = var.enable_waf ? 1 : 0
-  resource_arn = module.compute.alb_arn
+  resource_arn = var.alb_arn
   web_acl_arn  = aws_wafv2_web_acl.app1_waf_acl[0].arn
 }
 
