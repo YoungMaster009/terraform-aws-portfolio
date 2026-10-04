@@ -28,11 +28,7 @@ module "network" {
     }
   }
 
-  tags = {
-    Service = "application1"
-    Owner   = "Luke"
-    Planet  = "Mustafar"
-  }
+  
 }
 module "compute" {
   source      = "../../modules/compute"
@@ -44,16 +40,16 @@ module "compute" {
 
   ami_id = "ami-02a42b4c37ec3c4b4"
 
+  min_size         = 1
+  desired_capacity = 1
+  max_size         = 2
+
   instance_profile_name = module.app.instance_profile_name
     user_data = base64encode(templatefile("${path.module}/../../user-data.sh", {
     assets_bucket = module.app.assets_bucket
   }))
   certificate_arn = module.app.certificate_arn
-  tags = {
-    Service = "application1"
-    Owner   = "Luke"
-    Planet  = "Mustafar"
-  }
+
 }
 
 module "app" {

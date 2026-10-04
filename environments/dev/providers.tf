@@ -1,5 +1,13 @@
 provider "aws" {
   region = "us-west-1"
+
+  default_tags {
+    tags = {
+      Project     = "terraform-aws-portfolio"
+      Environment = "dev"
+      ManagedBy   = "terraform"
+    }
+  }
 }
 
 terraform {
