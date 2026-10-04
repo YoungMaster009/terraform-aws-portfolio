@@ -44,11 +44,11 @@ module "compute" {
 
   ami_id = "ami-02a42b4c37ec3c4b4"
 
-  instance_profile_name = aws_iam_instance_profile.instance.name
+  instance_profile_name = module.app.instance_profile_name
   user_data = base64encode(templatefile("${path.module}/user-data.sh", {
-    assets_bucket = aws_s3_bucket.assets.id
+    assets_bucket = module.app.assets_bucket
   }))
-  certificate_arn = aws_acm_certificate_validation.site.certificate_arn
+  certificate_arn = module.app.certificate_arn
   tags = {
     Service = "application1"
     Owner   = "Luke"
@@ -56,6 +56,19 @@ module "compute" {
   }
 }
 
+module "app" {
+  source      = "./modules/app"
+  name_prefix = "dev"
+
+  zone_name   = "doiwannaknowthediaryofjane.com"
+  site_domain = "dev.doiwannaknowthediaryofjane.com"
+
+  alb_dns_name = module.compute.alb_dns_name
+  alb_zone_id  = module.compute.alb_zone_id
+  alb_arn      = module.compute.alb_arn
+
+  enable_waf = false
+}
 output "lb_dns_name" {
   value       = module.compute.alb_dns_name
   description = "The DNS name of the App1 load balancer"
