@@ -67,7 +67,7 @@ resource "aws_wafv2_web_acl" "app1_waf_acl" {
     Name    = "${var.name_prefix}-app1-web-acl"
     Service = "application1"
     Owner   = "Chewbacca"
-    
+
   }
 }
 
@@ -89,7 +89,7 @@ resource "aws_wafv2_ip_set" "ip_block_list" {
     Name    = "${var.name_prefix}-ip-block-list"
     Service = "application1"
     Owner   = "Chewbacca"
-    
+
   }
 }
 
