@@ -28,7 +28,6 @@ data "aws_iam_policy_document" "github_trust" {
       variable = "token.actions.githubusercontent.com:sub"
       values = [
         "repo:YoungMaster009@${local.repo_owner_id}/terraform-aws-portfolio@${local.repo_id}:*",
-        "repo:YoungMaster009/terraform-aws-portfolio:*",
       ]
     }
   }
