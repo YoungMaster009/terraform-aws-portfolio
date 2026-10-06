@@ -28,7 +28,7 @@ module "network" {
     }
   }
 
-  
+
 }
 module "compute" {
   source      = "../../modules/compute"
@@ -45,7 +45,7 @@ module "compute" {
   max_size         = 2
 
   instance_profile_name = module.app.instance_profile_name
-    user_data = base64encode(templatefile("${path.module}/../../user-data.sh", {
+  user_data = base64encode(templatefile("${path.module}/../../user-data.sh", {
     assets_bucket = module.app.assets_bucket
   }))
   certificate_arn = module.app.certificate_arn
