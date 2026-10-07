@@ -13,8 +13,8 @@ The stack is torn down when not in use to control cost and deployed on demand th
 - **Application Load Balancer** serving HTTPS on 443 with an ACM certificate validated through Route 53; HTTP on 80 redirects with a 301
 - **Auto Scaling group** in private subnets, with rolling instance refresh when the launch template changes
 - **Route 53** DNS for the apex domain (prod) and the dev subdomain
-- **S3 assets bucket**, read by instances through an IAM instance profile
-- **AWS WAF** with an IP block list, behind a toggle that is off by default to save cost
+- **S3 assets bucket**, read by instances through an IAM instance role scoped to that bucket only
+- **AWS WAF** with an IP block list and AWS managed rules, behind a toggle that is off by default to save cost
 - **Remote state** in S3 with native locking, and a separate state file per environment
 
 ## Repository layout
@@ -70,4 +70,4 @@ terraform destroy
 
 ## Credits
 
-Background video from Pexels.
+Background video by Pachon in Motion via Pexels.
