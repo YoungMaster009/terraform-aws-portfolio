@@ -16,7 +16,7 @@ on:
         options: [apply, destroy]
         default: apply
   schedule:
-    - cron: "0 6 * * *"
+    - cron: "23 6 * * *"
 
 permissions:
   id-token: write
