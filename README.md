@@ -69,7 +69,7 @@ GitHub Actions authenticates to AWS with OIDC. Each run gets short-lived credent
 
 ## Cost
 
-The main costs (NAT gateway, ALB and EC2) are billed hourly, so the stack runs only when needed. All testing in September 2026 cost $3.42 in total. The Route 53 hosted zone is $0.50 a month. WAF is off by default because it adds about $5 a month plus $1 per rule.
+The main costs (NAT gateway, ALB and EC2) are billed hourly, so the stack runs only when needed. All testing in September 2026 cost $3.42 in total. The Route 53 hosted zone is $0.50 a month. WAF is off by default because it adds about $5 a month plus $1 per rule. An AWS Budget alert emails me if monthly spend passes 80% of a $10 budget.
 
 ## Problems solved
 
