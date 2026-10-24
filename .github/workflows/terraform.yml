@@ -91,5 +91,10 @@ jobs:
               await github.rest.issues.createComment({ owner, repo, issue_number, body });
             }
 
+      - name: prove the reviewer role is least privilege
+        if: always()
+        run: python reviewer/security/prove_least_privilege.py
+        working-directory: .
+
       - name: enforce the rules verdict
         run: exit ${{ steps.review.outputs.exit_code }}
